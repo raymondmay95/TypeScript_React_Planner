@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = function (models) {
     // associations can be defined here
-    User.hasMany(models.Event_Join);
+    User.belongsTo(models.Event, { through: models.Event_Join });
   };
   User.prototype.toSafeObject = function () {
     // remember, this cannot be an arrow function

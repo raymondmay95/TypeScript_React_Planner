@@ -19,18 +19,21 @@ module.exports = (sequelize, DataTypes) => {
   });
   Event_Join.associate = function (models) {
     // associations can be defined here
-    Event_Join.hasOne(models.User);
-    Event_Join.hasMany(models.Event);
+    // Event_Join.hasMany(models.User);
+    // Event_Join.belongsTo(models.Event);
   };
 
-  Event_Join.getEvents = async function ({ userId }) {
+  Event_Join.getEvents = async function (userId) {
     let eventList = await Event_Join.findAll({
       where: {
         userId,
       },
-      attributes: ["id", "eventId", "userId", "createdAt", "updatedAt"],
+      attributes: ["eventId"],
+      orderBy: "updatedAt",
     });
-    return eventList;
+
+    const eventIds = eventList.map((event) => event.eventId);
+    return eventIds;
   };
 
   return Event_Join;
