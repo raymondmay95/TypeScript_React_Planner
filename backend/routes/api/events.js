@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get(
   "/:userId",
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const { userId } = req.params;
     const eventIds = await Event_Join.getEvents(userId);
     const events = await Event.getEvents(eventIds);

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Stingray Scheduler",
+  "name": "Stingray cross-integrated life scheduler",
   "icons": [
     {
       "src": "favicon.ico",

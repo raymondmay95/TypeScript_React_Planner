@@ -1,50 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import {Provider, TypedUseSelectorHook, useSelector} from 'react-redux'
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { useDispatch } from "react-redux";
 
-const reactStyles = {
-  container: {
-    backgroundColor: "var(--main-bg-color)",
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100vw',
-    height: '100vh',
-    margin: 0,
-    padding: 0,
-  },
-  appBody : {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 1,
-    padding: 1,
-    backgroundColor: "var(--secondary-bg-color)",
-    width: "97%",
-    height: "95%"
-  }
+import configureStore from './store';
+import { restoreCSRF, csrfFetch } from "./store/csrf";
+import * as sessionActions from "./store/session";
+
+const store = configureStore();
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+if (process.env.NODE_ENV !== "production") {
+  restoreCSRF();
+  // @ts-ignore
+  window.csrfFetch = csrfFetch;
+  // @ts-ignore
+  window.store = store;
+  // @ts-ignore
+  window.sessionActions = sessionActions;
 }
 
-const Root: React.FC = () => {
+
+const Root = () => {
+  const useAppDispatch: AppDispatch = useDispatch();
+  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
   return (
-    <div style={reactStyles.container}>
-      <div style={reactStyles.appBody}>
-        <App />
-      </div>
-    </div>
+      <BrowserRouter>
+        <App useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />
+      </BrowserRouter>
   )
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Root />
+    <Provider store={store}>
+      <Root />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = function (models) {
     // associations can be defined here
-    User.belongsTo(models.Event, { through: models.Event_Join });
+    User.belongsToMany(models.Event, { through: models.Event_Join });
   };
   User.prototype.toSafeObject = function () {
     // remember, this cannot be an arrow function
@@ -75,6 +75,7 @@ module.exports = (sequelize, DataTypes) => {
           email: credential,
         },
       },
+      attributes: ["id", "username", "hashedPassword", "email"],
     });
     if (user && user.validatePassword(password)) {
       return await User.scope("currentUser").findByPk(user.id);
