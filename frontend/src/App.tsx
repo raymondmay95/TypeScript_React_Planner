@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Route, Switch } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import NavBar from "./components/navbar";
 import Home from "./components/home";
@@ -60,6 +60,12 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
             </Route>
             <Route path="/" exact>
               <Home isLoaded={isLoaded} setIsLoaded={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+            </Route>
+            <Route path="/">
+              <div style={{textAlign:"center"}}>
+                <div>404 Page does not exist</div>
+                <NavLink to="/" title="home">Home</NavLink>
+              </div>
             </Route>
           </Switch>
         </div>
