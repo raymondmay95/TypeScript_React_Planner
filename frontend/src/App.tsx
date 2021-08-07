@@ -4,6 +4,7 @@ import * as sessionActions from "./store/session";
 import NavBar from "./components/navbar";
 import Home from "./components/home";
 import LoginForm from "./components/login/login-form";
+import Daily from "./components/calender/daily"
 
 export interface AppProps {
   useAppSelector:any,
@@ -27,6 +28,7 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
     getUser();
   }, [dispatch]);
 
+  //TODO: Move this to a module.css file and import it
   const reactStyles = {
   container: {
     backgroundColor: "var(--main-bg-color)",
@@ -52,24 +54,39 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
   return (
     <>
       <NavBar isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-      <div style={reactStyles.container}>
-        <div style={reactStyles.appBody}>
           <Switch>
+            {/* ---------- Login Page ------------ */}
             <Route path="/login">
-              <LoginForm setLogin={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+              <div style={reactStyles.container}>
+                <div style={reactStyles.appBody}>
+                  <LoginForm setLogin={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+                </div>
+              </div>
             </Route>
+            {/* ---------- Login Page ------------ */}
+            {/* ---------- Daily Calender ------------ */}
+            <Route path="/daily/:day">
+              <Daily user={user} />
+            </Route>
+            {/* ---------- Daily Calender ------------ */}
+            {/* ---------- Home Page  ------------ */}
             <Route path="/" exact>
-              <Home isLoaded={isLoaded} setIsLoaded={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+              <div style={reactStyles.container}>
+                <div style={reactStyles.appBody}>
+                  <Home isLoaded={isLoaded} setIsLoaded={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+                </div>
+              </div>
             </Route>
+            {/* ---------- Home Page  ------------ */}
+            {/* ---------- 404 Page  ------------ */}
             <Route path="/">
               <div style={{textAlign:"center"}}>
                 <div>404 Page does not exist</div>
                 <NavLink to="/" title="home">Home</NavLink>
               </div>
             </Route>
+            {/* ---------- 404 Page  ------------ */}
           </Switch>
-        </div>
-      </div>
     </>
   );
 }
