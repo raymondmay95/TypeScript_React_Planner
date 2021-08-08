@@ -1,12 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import {useParams} from "react-router-dom"
 
-export interface calenderProps {
-   user: {
-      current: object | null
-   }
-}
-
-const Daily: React.FC<calenderProps> = ({user}) => {
+const Daily: React.FC = () => {
+   const { day } = useParams<{day:string}>()
+   const user = useSelector((state:{session: {user: {}}})=>state.session.user)
+   console.log(user)
    //TODO: create a day view
    return <></>
 }

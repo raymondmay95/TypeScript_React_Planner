@@ -66,7 +66,7 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
             {/* ---------- Login Page ------------ */}
             {/* ---------- Daily Calender ------------ */}
             <Route path="/daily/:day">
-              <Daily user={user} />
+              <Daily />
             </Route>
             {/* ---------- Daily Calender ------------ */}
             {/* ---------- Home Page  ------------ */}
