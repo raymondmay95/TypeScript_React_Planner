@@ -6,6 +6,7 @@ import NavBar from "./components/navbar";
 import Home from "./components/home";
 import LoginForm from "./components/login/login-form";
 import Daily from "./components/calender/daily"
+import Monthly from "./components/calender/monthly";
 import { useDispatch } from "react-redux";
 
 
@@ -66,6 +67,11 @@ const App: React.FC = () => {
             {/* ---------- Daily Calender ------------ */}
             <Route path="/daily/:day">
               <Daily />
+            </Route>
+            {/* ---------- Daily Calender ------------ */}
+            {/* ---------- Daily Calender ------------ */}
+            <Route path="/month/:month">
+              <Monthly />
             </Route>
             {/* ---------- Daily Calender ------------ */}
             {/* ---------- Home Page  ------------ */}

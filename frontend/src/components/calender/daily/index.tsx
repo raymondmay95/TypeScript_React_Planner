@@ -1,13 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import {useParams} from "react-router-dom"
-import { eventsInterface } from "../../../store/events";
+// import { eventsInterface } from "../../../store/events";
 
 const Daily: React.FC = () => {
    const { day } = useParams<{day:string}>()
-   const {user} = useSelector((state:{session: {user: {}}})=>state.session)
-   const event = useSelector((state:{events: {event: eventsInterface}})=>state.events)
-   console.log(event)
+   // const event = useSelector((state:{events: {event: eventsInterface}})=>state.events)
    //TODO: create a day view
    return (
    <>

@@ -20,7 +20,7 @@ const initialState: eventsInterface[] = [
    }
 ]
 // Action
-const setEvents = (events: eventsInterface) => {
+const setEvents = (events: eventsInterface[]) => {
   return {
     type: GET_EVENTS,
     payload: events,
