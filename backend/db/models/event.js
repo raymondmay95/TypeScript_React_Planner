@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       defaultScope: {
         attributes: {
-          exclude: ["createdAt", "updatedAt"],
+          include: ["createdAt", "updatedAt"],
         },
       },
       scopes: {},
@@ -28,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Event.getEvents = async function (eventIds) {
-    console.log(eventIds);
     const events = await Event.findAll({
       where: {
         id: {
           [Op.in]: eventIds,
         },
       },
+      order: [["updatedAt", "DESC"]],
     });
     return events;
   };

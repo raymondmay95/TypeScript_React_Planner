@@ -1,5 +1,6 @@
 import { AppDispatch } from "..";
 import { csrfFetch } from "./csrf";
+import { removeEvents } from "./events";
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
@@ -24,7 +25,7 @@ const removeUser = () => {
     type: REMOVE_USER,
   };
 };
-
+// ----- Login Utility -------
 export const login = (user: userType) => async (dispatch: AppDispatch) => {
   const { credential, password } = user;
   const response = await csrfFetch("/api/session", {
@@ -38,13 +39,14 @@ export const login = (user: userType) => async (dispatch: AppDispatch) => {
   dispatch(setUser(data.user));
   return response;
 };
-
+// grabs session cookie to dispatch user
 export const restoreUser = () => async (dispatch: AppDispatch) => {
   const response = await csrfFetch("/api/session/");
-  const data = await response.json();
-  dispatch(setUser(data.user));
-  return response;
+  const {user} = await response.json();
+  dispatch(setUser(user));
+  return user;
 };
+// ----- SignUp Utility -------
 export const signup = (user: userType) => async (dispatch: AppDispatch) => {
   const { username, email, password } = user;
   const response = await csrfFetch("/api/users", {
@@ -64,6 +66,7 @@ export const logout = () => async (dispatch: AppDispatch | any) => {
     method: "DELETE",
   });
   dispatch(removeUser());
+  dispatch(removeEvents())
   return response;
 };
 

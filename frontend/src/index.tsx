@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import {Provider, TypedUseSelectorHook, useSelector} from 'react-redux'
+import {Provider} from 'react-redux'
 import './index.css';
 import App from './App';
-import { useDispatch } from "react-redux";
 
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from "./store/csrf";
@@ -26,11 +25,9 @@ if (process.env.NODE_ENV !== "production") {
 
 
 const Root = () => {
-  const useAppDispatch: AppDispatch = useDispatch();
-  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
   return (
       <BrowserRouter>
-        <App useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />
+        <App />
       </BrowserRouter>
   )
 }

@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { Redirect } from "react-router-dom";
-import { AppProps } from "../../App";
-
+import {useSelector, useDispatch} from "react-redux"
 type LoginProps = {
-   setLogin: (a:boolean) => void
+   setLogin: (a:boolean) => void;
+   setIsLoaded: (a:boolean) => void
 }
-const LoginFormPage: React.FC<LoginProps & AppProps> = ({setLogin, useAppDispatch, useAppSelector}) => {
-  const dispatch = useAppDispatch;
-  const sessionUser = useAppSelector((state:any) => state.session.user);
+const LoginFormPage: React.FC<LoginProps> = ({setLogin, setIsLoaded}) => {
+  const dispatch = useDispatch();
+  const sessionUser = useSelector((state:any) => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return <Redirect to={`/`} />;
-
+  if (sessionUser) {
+    return <Redirect to={`/`} />;
+  }
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (credential !== "" && password !== "") {
       setErrors([]);
       const data:any | JSON = await dispatch(sessionActions.login({ credential, password }))
-      if (data && data.errors) setErrors(data.errors);
+      if (data && data.errors) {
+        setErrors(data.errors);
+        // setIsLoaded(false)
+        return data
+      }
+      setIsLoaded(true)
       return data
       };
   }
@@ -66,7 +72,9 @@ const LoginFormPage: React.FC<LoginProps & AppProps> = ({setLogin, useAppDispatc
             </button>
             <button
               type="button"
-              onClick={() => {setLogin(false);}}
+              onClick={() => {
+                setLogin(false)
+              }}
             >
               Sign Up
             </button>

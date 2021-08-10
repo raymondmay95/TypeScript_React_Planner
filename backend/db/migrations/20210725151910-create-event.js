@@ -15,7 +15,9 @@ module.exports = {
         type: Sequelize.JSON,
       },
       eventDate: {
+        allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now"),
       },
       createdAt: {
         allowNull: false,

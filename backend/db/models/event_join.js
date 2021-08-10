@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         userId,
       },
       attributes: ["eventId"],
-      orderBy: "updatedAt",
+      order: [["updatedAt", "ASC"]],
     });
 
     const eventIds = eventList.map((event) => event.eventId);

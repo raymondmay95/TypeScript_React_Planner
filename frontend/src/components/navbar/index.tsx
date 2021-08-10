@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as sessionActions from "../../store/session";
+import { NavLink } from "react-router-dom";
 
 const NavBarStyles = {
    backgroundColor: "eee",
@@ -35,13 +36,18 @@ const NavBar: React.FC<IProps> = ({isLoaded, setIsLoaded}) => {
    }
    const logOut = async () => {
       await dispatch(sessionActions.logout())
+      setIsLoaded(false)
    }
 
 
    return <>
       {isLoaded && user ?
          <div style={NavBarStyles}>
-            <div onClick={logOut} >Log Out</div>
+            <NavLink to="/login" onClick={logOut} >
+               <p>
+                  Log Out
+               </p>
+            </NavLink>
             <form>
                <select name="viewSelector" id="viewSelector" onChange={handleChange}>
                   <option value={viewSizes["daily"]}>{viewSizes[0]}</option>

@@ -1,28 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
+import * as eventActions from "./store/events";
 import NavBar from "./components/navbar";
 import Home from "./components/home";
 import LoginForm from "./components/login/login-form";
 import Daily from "./components/calender/daily"
+import { useDispatch } from "react-redux";
 
-export interface AppProps {
-  useAppSelector:any,
-  useAppDispatch:any
-}
 
-const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
-  const dispatch = useAppDispatch
+const App: React.FC = () => {
+  const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false);;
   const user = useRef(null);
   useEffect(() => {
-    async function getUser() {
-      const response = await dispatch(sessionActions.restoreUser())
-      if (response.ok) {
-        user.current = response.user;
+    async function getUser(): Promise<void> {
+      let __user = await dispatch<any>(sessionActions.restoreUser())
+      if (__user) {
+        user.current = __user;
+        await dispatch(eventActions.getEvents(__user.id))
         setIsLoaded(true);
       } else {
-        console.log(response)
+        console.log("no user found")
       }
     }
     getUser();
@@ -59,7 +58,7 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
             <Route path="/login">
               <div style={reactStyles.container}>
                 <div style={reactStyles.appBody}>
-                  <LoginForm setLogin={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+                  <LoginForm setLogin={setIsLoaded} setIsLoaded={setIsLoaded} />
                 </div>
               </div>
             </Route>
@@ -73,7 +72,7 @@ const App: React.FC<AppProps> = ({useAppSelector,useAppDispatch}) => {
             <Route path="/" exact>
               <div style={reactStyles.container}>
                 <div style={reactStyles.appBody}>
-                  <Home isLoaded={isLoaded} setIsLoaded={setIsLoaded} useAppDispatch={useAppDispatch} useAppSelector={useAppSelector} />
+                  <Home isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
                 </div>
               </div>
             </Route>
