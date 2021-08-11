@@ -23,6 +23,7 @@ const App: React.FC = () => {
         setIsLoaded(true);
       } else {
         console.log("no user found")
+        setIsLoaded(false)
       }
     }
     getUser();

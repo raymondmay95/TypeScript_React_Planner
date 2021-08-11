@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
+import * as eventActions from "../../store/events";
 import { Redirect } from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux"
 type LoginProps = {
@@ -23,9 +24,10 @@ const LoginFormPage: React.FC<LoginProps> = ({setLogin, setIsLoaded}) => {
       const data:any | JSON = await dispatch(sessionActions.login({ credential, password }))
       if (data && data.errors) {
         setErrors(data.errors);
-        // setIsLoaded(false)
+        setIsLoaded(false)
         return data
       }
+      await dispatch(eventActions.getEvents(data.id))
       setIsLoaded(true)
       return data
       };

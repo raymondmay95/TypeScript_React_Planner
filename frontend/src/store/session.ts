@@ -36,14 +36,14 @@ export const login = (user: userType) => async (dispatch: AppDispatch) => {
     }),
   });
   const data = await response.json();
-  dispatch(setUser(data.user));
-  return response;
+  await dispatch(setUser(data.user));
+  return data.user;
 };
 // grabs session cookie to dispatch user
 export const restoreUser = () => async (dispatch: AppDispatch) => {
   const response = await csrfFetch("/api/session/");
   const {user} = await response.json();
-  dispatch(setUser(user));
+  await dispatch(setUser(user));
   return user;
 };
 // ----- SignUp Utility -------

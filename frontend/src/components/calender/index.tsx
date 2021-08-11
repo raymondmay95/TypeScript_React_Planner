@@ -1,22 +1,7 @@
 import React from "react";
 import "./calender.css"
-import {dateInterface} from "../../utils/dateUtils"
-
-// interface CalProps {
-//    sessionUser: {
-//       email: string,
-//       id: number,
-//       username: string
-//    };
-//    date?: dateInterface;
-//    month: number | string;
-//    day: number | string;
-//    year: number | string;
-//    numberOfDays: number | string
-// }
 
 const Calender: React.FC = () => {
-   // const {email, id, username} = sessionUser
    return (
    <>
       <div id="calender">
